@@ -1,21 +1,44 @@
 // components/SignUpForm.js
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function SignUpForm() {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
+    username: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
+  const [usernameAvailable, setUsernameAvailable] = useState(null);
 
   // Validation functions
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+
+  // Debounce API call to check username availability
+  useEffect(() => {
+    const checkUsername = async () => {
+      if (formData.username) {
+        try {
+          const response = await fetch(`/api/check-username?username=${formData.username}`);
+          const data = await response.json();
+          setUsernameAvailable(data.available);
+        } catch (error) {
+          console.error("Error checking username:", error);
+        }
+      } else {
+        setUsernameAvailable(null);
+      }
+    };
+
+    // Delay checking username availability by 500ms
+    const debounceTimeout = setTimeout(checkUsername, 500);
+    return () => clearTimeout(debounceTimeout);
+  }, [formData.username]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +50,9 @@ export default function SignUpForm() {
     }
     if (formData.password !== formData.confirmPassword) {
       newErrors.password = "Passwords do not match.";
+    }
+    if (usernameAvailable === false) {
+      newErrors.username = "Username is already taken.";
     }
     setErrors(newErrors);
 
@@ -41,6 +67,7 @@ export default function SignUpForm() {
           body: JSON.stringify({
             firstName: formData.firstName,
             lastName: formData.lastName,
+            username: formData.username,
             email: formData.email,
             password: formData.password,
           }),
@@ -63,7 +90,10 @@ export default function SignUpForm() {
       onSubmit={handleSubmit}
       className="flex flex-col items-center border rounded-lg m-8 p-6 bg-gray-100 space-y-6"
     >
-      <div className="text-5xl font-extrabold font-mono text-black">ProT</div>
+      {/* Title Section with Gradient Text */}
+      <div className="text-5xl font-extrabold font-mono text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-red-500">
+        ProT
+      </div>
 
       {/* Input fields */}
       <div className="w-full max-w-xs">
@@ -85,6 +115,27 @@ export default function SignUpForm() {
           onChange={handleChange}
           className="w-full border border-gray-300 rounded-lg bg-slate-100 text-black py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
+      </div>
+
+      {/* Username field with availability check */}
+      <div className="w-full max-w-xs">
+        <input
+          type="text"
+          name="username"
+          placeholder="Username"
+          value={formData.username}
+          onChange={handleChange}
+          className="w-full border border-gray-300 rounded-lg bg-slate-100 text-black py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        {usernameAvailable === false && (
+          <p className="text-red-500 text-sm">Username is already taken.</p>
+        )}
+        {usernameAvailable === true && (
+          <p className="text-green-500 text-sm">Username is available.</p>
+        )}
+        {errors.username && (
+          <p className="text-red-500 text-sm">{errors.username}</p>
+        )}
       </div>
 
       <div className="w-full max-w-xs">
@@ -127,13 +178,13 @@ export default function SignUpForm() {
       {/* Submit Button */}
       <button
         type="submit"
-        className="w-full max-w-xs py-2 px-4 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition duration-300"
+        className="w-full max-w-xs py-2 px-4 text-white rounded-lg font-semibold bg-gradient-to-r from-blue-500 to-red-500 hover:from-blue-600 hover:to-red-600 transition duration-300"
       >
         Sign Up
       </button>
 
       <div>
-        Already have an account? <a href="/login">Log in</a>
+        Already have an account? <a href="/login" className="text-blue-500">Log in</a>
       </div>
     </form>
   );
