@@ -1,7 +1,10 @@
 // components/SignUpForm.js
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function SignUpForm() {
+  const router = useRouter()
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -17,6 +20,10 @@ export default function SignUpForm() {
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
+  };
+
+  const handleGoBack = () => {
+    router.push(`/login`);
   };
 
   // Debounce API call to check username availability
@@ -184,7 +191,7 @@ export default function SignUpForm() {
       </button>
 
       <div>
-        Already have an account? <a href="/login" className="text-blue-500">Log in</a>
+        Already have an account? <Link href="/login" className="text-blue-500">Log in</Link>
       </div>
     </form>
   );
