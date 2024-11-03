@@ -5,18 +5,48 @@ import { useRouter } from 'next/navigation';
 
 export default function SignUpStep1({ updateFormData }) {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [password1, setPassword1] = useState('');
+  const [password2, setPassword2] = useState('');
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
+
+  // State for password criteria
+  const [hasMinLength, setHasMinLength] = useState(false);
+  const [hasUpperCase, setHasUpperCase] = useState(false);
+  const [hasLowerCase, setHasLowerCase] = useState(false);
+  const [hasNumeric, setHasNumeric] = useState(false);
+  const [hasSpecialChar, setHasSpecialChar] = useState(false);
 
   useEffect(() => {
     setIsMounted(true); // Ensures component renders only after mounting
   }, []);
 
+  const validatePassword = (password) => {
+    setHasMinLength(password.length >= 8);
+    setHasUpperCase(/[A-Z]/.test(password));
+    setHasLowerCase(/[a-z]/.test(password));
+    setHasNumeric(/\d/.test(password));
+    setHasSpecialChar(/[!@#$%^&*(),.?":{}|<>]/.test(password));
+  };
+
+  const handlePasswordChange = (e) => {
+    const password = e.target.value;
+    setPassword1(password);
+    validatePassword(password);
+  };
+
   const handleContinue = (e) => {
     e.preventDefault();
-    if (email && password) {
-      updateFormData({ email, password });
+    if (email && password1 && password2) {
+      if (password1 !== password2) {
+        alert("Passwords do not match!");
+        return;
+      }
+      if (!(hasMinLength && hasUpperCase && hasLowerCase && hasNumeric && hasSpecialChar)) {
+        alert("Password must meet all requirements.");
+        return;
+      }
+      updateFormData({ email, password1, password2 });
       router.push('/signup/step2'); // Move to the next page
     }
   };
@@ -37,36 +67,32 @@ export default function SignUpStep1({ updateFormData }) {
           <div>FashionFi</div>
           <div className="text-[48px] mt-36 font-semibold leading-tight">Begin your journey with FashionFi</div>
           <div className="text-white text-[16px] mt-7 font-light">
-            {/* Placeholder divider */}
             {'//'.repeat(14)}
           </div>
           <div className="mt-16">
+            {/* Benefits text */}
             <div className="items-start space-x-3">
-              <div className="text-yellow-400 text-xl">🌟</div>
-              <br />
-              <div className="text-[18px]">Personalized Fitting: Enjoy a seamless tailoring experience designed around your unique measurements and style preferences.</div>
-            </div>
-            <div className="items-start space-x-3 mt-11">
-              <div className="text-red-400 text-xl">🚀</div>
-              <br />
-              <p className="text-[18px]">Exclusive Offers & Updates: Be the first to know about our special promotions, new collections, and style tips.</p>
-            </div>
-            <div className="items-start space-x-3 mt-11">
-              <div className="text-green-400 text-xl">🔓</div>
-              <br />
-              <div className="text-[18px]">Simple & Quick: Signing up takes just a few minutes—begin your journey towards impeccable style today!</div>
-            </div>
+                <div className="text-yellow-400 text-xl">🌟</div>
+                <br/>
+                <div className="text-[18px]">Personalized Fitting: Enjoy a seamless tailoring experience designed around your unique measurements and style preferences.</div>
+              </div>
+              <div className="items-start space-x-3 mt-11">
+                  <div className="text-red-400 text-xl">🚀</div>
+                  <br/>
+                  <p className="text-[18px]">Exclusive Offers & Updates: Be the first to know about our special promotions, new collections, and style tips.</p>
+              </div>
+              <div className="items-start space-x-3 mt-11">
+                  <div className="text-green-400 text-xl">🔓</div>
+                  <br/>
+                  <div className="text-[18px]">Simple & Quick: Signing up takes just a few minutes—begin your journey towards impeccable style today!</div>
+              </div>
           </div>
         </div>
       </div>
 
       <div className="col-span-1 justify-center px-16 bg-white">
-        <div class="flex items-center space-x-2 text-gray-500 text-sm mb-4">
-            <span class="bg-[#1A3A4F] text-white w-[16px] h-[16px] rounded-full font-semibold">1</span> <span class="text-black">Sign Up</span>
-            <span class="text-black">›</span>
-            <span class="text-black border w-[16px] h-[16px] rounded-full">2 </span><span class="text-black">Verify email</span>
-            <span class="text-black">›</span>
-            <span class="text-black w-[16px] h-[16px] rounded-full border">3 </span> <span class="text-black">PersonalInfo</span>
+        <div className="flex items-center space-x-2 text-gray-500 text-sm mb-4">
+          {/* Progress indicator */}
         </div>
 
         <div className="text-xl font-semibold mb-2 mt-36">Step 1/3</div>
@@ -87,13 +113,42 @@ export default function SignUpStep1({ updateFormData }) {
 
           <div>
             <input
-              id="password"
+              id="password1"
               type="password"
               placeholder="Password (min. 8 characters)"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={password1}
+              onChange={handlePasswordChange}
               className="w-full p-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#1A3A4F]"
             />
+          </div>
+
+          <div>
+            <input
+              id="password2"
+              type="password"
+              placeholder="Confirm Password"
+              value={password2}
+              onChange={(e) => setPassword2(e.target.value)}
+              className="w-full p-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-[#1A3A4F]"
+            />
+          </div>
+
+          <div className="space-y-1 text-sm text-gray-600">
+            <div className={hasMinLength ? "text-green-500" : "text-gray-600"}>
+              {hasMinLength ? "✓" : "✗"} Minimum 8 characters
+            </div>
+            <div className={hasUpperCase ? "text-green-500" : "text-gray-600"}>
+              {hasUpperCase ? "✓" : "✗"} At least one uppercase letter
+            </div>
+            <div className={hasLowerCase ? "text-green-500" : "text-gray-600"}>
+              {hasLowerCase ? "✓" : "✗"} At least one lowercase letter
+            </div>
+            <div className={hasNumeric ? "text-green-500" : "text-gray-600"}>
+              {hasNumeric ? "✓" : "✗"} At least one number
+            </div>
+            <div className={hasSpecialChar ? "text-green-500" : "text-gray-600"}>
+              {hasSpecialChar ? "✓" : "✗"} At least one special character
+            </div>
           </div>
 
           <button type="submit" className="w-full py-4 bg-[#1A3A4F] text-white font-semibold rounded-md hover:bg-[#1A3A4F]">
