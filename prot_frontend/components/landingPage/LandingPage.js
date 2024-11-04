@@ -1,14 +1,10 @@
 // components/LandingPage.js
 import React from 'react';
-import Header from './Header';
-import HeroSection from './HeroSection';
-import ServicesSection from './ServicesSection';
+import HomePage from './component/LandingPage';
 
 const LandingPage = () => (
   <div>
-    <Header />
-    <HeroSection />
-    <ServicesSection />
+    <HomePage />
   </div>
 );
 
