@@ -17,7 +17,7 @@ export default function HomePage() {
             <button onClick={() => router.push('/about')} className="text-gray-700">About Us</button>
             <button onClick={() => router.push('/contact')} className="text-gray-700">Contact Us</button>
             <button onClick={() => router.push('/blog')} className="text-gray-700">Blog</button>
-            <button onClick={() => router.push('/signup')} className="bg-red-700 text-white px-4 py-2 rounded">Sign Up</button>
+            <button onClick={() => router.push('/signup/step1')} className="bg-red-700 text-white px-4 py-2 rounded">Sign Up</button>
           </nav>
         </div>
       </header>
