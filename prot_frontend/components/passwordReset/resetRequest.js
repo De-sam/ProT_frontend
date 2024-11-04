@@ -52,6 +52,12 @@ export default function ForgotPassword() {
     }
   };
 
+  const handleLogInLink = () => {
+    // Redirect to the sign-up page
+    router.push('/login');
+  };
+
+
   return (
     <div className="w-screen h-screen m-6 flex items-center justify-center">
       <div className="w-[491px] h-[442px] rounded-lg border bg-[#B2DDF9] p-6">
@@ -95,10 +101,9 @@ export default function ForgotPassword() {
 
         {/* Login Redirect */}
         <div className="text-center mt-6 text-[14px]">
-          Remember Password?{' '}
-          <button className="text-[#1A3A4F] hover:text-[#427ea7]">
-            Log in
-          </button>
+        <p className="text-gray-600 text-center mt-4">
+          Don&apos;t have an account? <button onClick={handleLogInLink} className="text-[#1A3A4F] font-semibold">Sign up</button>
+        </p>
         </div>
       </div>
     </div>
