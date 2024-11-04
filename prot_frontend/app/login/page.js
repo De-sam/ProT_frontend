@@ -1,8 +1,8 @@
 "use client"
-import Success from "@/components/success"
+import LoginPage from "@/components/login/login";
 import { useState, useEffect } from "react"
 
-export default function Succes() {
+export default function Login() {
     const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
@@ -12,6 +12,6 @@ export default function Succes() {
     if (!isMounted) return null;
 
     return (
-    <div><Success /></div>
+    <div><LoginPage /></div>
     )
 }

@@ -3,7 +3,7 @@ import React from 'react';
 
 const HeroSection = () => (
   <div
-    className="h-[708px] w-[1440px] relative"
+    className="h-[708px] w-screen relative"
     style={{
       backgroundImage:
         "url('https://s3-alpha-sig.figma.com/img/46dc/fa0a/680711d18f9a2473c0111baf28ff9cd1?Expires=1731283200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=P2fl7VW~vWgrenBEtxAIz0-AtT5UzAdipRHKN~Ijat8q1xUL8IzJ5ZLUL4XF3gqEiwoGDcQjzHQ1XAqCC6UAjoJyMFYRH3a2DhCGKvaBB7nCel8YXWJm7JZSkwfjxHYjUOK7MAqvHDuexbhB8UBgLSV6JKKiDk0gPNZPa4k-oG9rClzpFp4CVLr7~6Fjs9d8V0xkroj46JpXgwVkOPj4F8Go2XKE9OOdF6onkS25w8d2eB2I8R6eMgSHUYGjxfNl5pq1qfsdVc1Sr1JQushGNc6se~6pG~7lpWWC5KYY6QsJEKgjfs5s-cj5akGScBbKaMesnbKH4fCs0hmVNFW6wQ__')",

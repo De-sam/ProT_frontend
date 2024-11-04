@@ -12,7 +12,7 @@ const Header = () => {
   };
 
   return (
-    <div className="grid grid-cols-3 w-[1440px]">
+    <div className="grid grid-cols-3 w-screen">
       <div className="col-span-1 m-5 text-[32px] font-bold tracking-tighter text-left">
         FashionFi
       </div>

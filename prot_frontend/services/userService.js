@@ -20,3 +20,23 @@ export const registerUser = async (formData) => {
     throw new Error(error.response?.data || error.message);
   }
 };
+
+async function registerUser() {
+  const response = await fetch('/api/userauth/register/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      first_name: 'John',
+      last_name: 'Doe',
+      email: 'johndoe@example.com',
+      password1: 'password123',
+      password2: 'password123',
+      role: 'CUSTOMER', // or 'TAILOR'
+    }),
+  });
+
+  const data = await response.json();
+  console.log(data);
+}
