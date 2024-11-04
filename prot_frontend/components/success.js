@@ -10,7 +10,7 @@ export default function Success() {
   useEffect(() => {
     // Redirect after 3 seconds
     const timer = setTimeout(() => {
-      router.push('/');
+      router.push('/login');
     }, 5000);
 
     // Clean up the timer if the component unmounts before the timeout completes

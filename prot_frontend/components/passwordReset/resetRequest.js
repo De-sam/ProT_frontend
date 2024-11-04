@@ -60,7 +60,7 @@ export default function ForgotPassword() {
           Forgot Password
         </div>
         <div className="text-center text-[14px] text-gray-600 mb-6">
-          Enter your email, and we'll send you a link to reset it and get back into your account.
+          Enter your email, and we&apos;ll send you a link to reset it and get back into your account.
         </div>
 
         {/* Email Label */}

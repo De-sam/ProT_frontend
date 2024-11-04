@@ -74,6 +74,11 @@ export default function SignUpStep1() {
       throw new Error(errorMessage);
     }}
 
+    const handleLogInLink = () => {
+      // Redirect to the sign-up page
+      router.push('/login');
+    };
+
   const handleContinue = async (e) => {
     e.preventDefault();
     if (email && password1 && password2 && firstName && lastName) {
@@ -132,7 +137,6 @@ export default function SignUpStep1() {
       </div>
 
       <div className="col-span-1 justify-center px-16 bg-white">
-        <div className="text-xl font-semibold mb-2 mt-36">Step 1/3</div>
         <div className="text-3xl font-bold mb-6">Create an account</div>
 
         <form onSubmit={handleContinue} className="space-y-6">
@@ -218,9 +222,12 @@ export default function SignUpStep1() {
             type="submit"
             className="w-full bg-[#1A3A4F] text-white py-4 rounded-md hover:bg-[#1A3A4F]/80 transition duration-200"
           >
-            Continue
+            Sign Up
           </button>
         </form>
+        <p className="text-gray-600 text-center mt-4">
+          Don&apos;t have an account? <button onClick={handleLogInLink} className="text-[#1A3A4F] font-semibold">Sign up</button>
+        </p>
       </div>
     </div>
   );

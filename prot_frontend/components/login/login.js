@@ -49,6 +49,30 @@ export default function LoginPage() {
     }
   };
 
+  // Handle sign up with Google
+  const handleGoogleSignUp = () => {
+    // Redirect to your Google OAuth login URL
+    window.location.href = 'http://127.0.0.1:8000/auth/google/';
+  };
+
+  // Handle login with Apple
+  const handleAppleLogin = () => {
+    // Redirect to your Apple OAuth login URL
+    window.location.href = 'http://127.0.0.1:8000/auth/apple/';
+  };
+
+  // Handle forgotten password
+  const handleForgotPassword = () => {
+    // Redirect to the forgotten password page
+    router.push('/forgot-password');
+  };
+
+  // Handle sign up link
+  const handleSignUpLink = () => {
+    // Redirect to the sign-up page
+    router.push('/signup/step1');
+  };
+
   return (
     <div className="grid grid-cols-2 h-[1024px]">
       {/* Left Column with Background Image */}
@@ -89,11 +113,11 @@ export default function LoginPage() {
 
         {/* Sign-Up Buttons */}
         <div className="space-y-4 grid grid-cols-2">
-          <button className="col-span-1 mr-3 flex items-center justify-center w-full py-3 border border-gray-300 rounded-md bg-[#EAF2FF] hover:bg-gray-100">
+          <button onClick={handleGoogleSignUp} className="col-span-1 mr-3 flex items-center justify-center w-full py-3 border border-gray-300 rounded-md bg-[#EAF2FF] hover:bg-gray-100">
             <Image src="https://img.icons8.com/color/48/000000/google-logo.png" className="w-[24px] h-[24px]" alt="Google logo" />
             Sign up with Google
           </button>
-          <button className="col-span-1 ml-3 flex items-center justify-center w-full py-3 border border-gray-300 rounded-md bg-[#EAF2FF] hover:bg-gray-100">
+          <button onClick={handleAppleLogin} className="col-span-1 ml-3 flex items-center justify-center w-full py-3 border border-gray-300 rounded-md bg-[#EAF2FF] hover:bg-gray-100">
             <Image src="https://img.icons8.com/ios-filled/50/000000/mac-os.png" className="w-[24px] h-[24px] mr-2" alt="Apple logo" />
             Login with Apple
           </button>
@@ -144,7 +168,7 @@ export default function LoginPage() {
               <label htmlFor="rememberMe" className="text-sm text-[#1C1C1C]">Remember me</label>
             </div>
             <div className="col-span-1 text-right">
-              <button className="text-[#1A3A4F] text-[14px] font-semibold">
+              <button type="button" onClick={handleForgotPassword} className="text-[#1A3A4F] text-[14px] font-semibold">
                 Forgotten password?
               </button>
             </div>
@@ -161,7 +185,7 @@ export default function LoginPage() {
 
         {/* Sign-Up Link */}
         <p className="text-gray-600 text-center mt-4">
-          Don&apos;t have an account? <a href="#" className="text-[#1A3A4F] font-semibold">Sign up</a>
+          Don&apos;t have an account? <button onClick={handleSignUpLink} className="text-[#1A3A4F] font-semibold">Sign up</button>
         </p>
       </div>
     </div>
