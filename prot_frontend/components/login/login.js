@@ -1,8 +1,9 @@
 // components/LoginPage.jsx
 "use client";
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import axios from 'axios';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -12,27 +13,30 @@ export default function LoginPage() {
   // Log in user function
   const loginUser = async () => {
     try {
-      const response = await fetch('/api/userauth/login/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          password,
-        }),
+      const response = await axios.post('http://127.0.0.1:8000/api/userauth/login/', {
+        email,
+        password,
       });
-      const data = await response.json();
 
-      if (response.ok) {
-        localStorage.setItem('access_token', data.access);
-        router.push('/dashboard'); // Redirect after successful login
-      } else {
-        alert(`Error: ${data.message || 'Login failed'}`);
-      }
+      // Store access token and redirect if successful
+      localStorage.setItem('access_token', response.data.access);
+      router.push('/dashboard');
     } catch (error) {
-      console.error("Login error:", error);
-      alert("An error occurred during login.");
+      console.error("Full Axios Error:", error);
+
+      if (error.response) {
+        console.error("Response Data:", error.response.data);
+        console.error("Status Code:", error.response.status);
+        console.error("Headers:", error.response.headers);
+      } else if (error.request) {
+        console.error("No Response Received:", error.request);
+      } else {
+        console.error("Error in Request Setup:", error.message);
+      }
+
+      // Show error message to user
+      const errorMessage = error.response?.data?.message || 'Login failed. Please try again.';
+      alert(errorMessage);
     }
   };
 

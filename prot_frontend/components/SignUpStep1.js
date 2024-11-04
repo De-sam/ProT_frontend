@@ -1,15 +1,15 @@
-// components/SignUpStep1.jsx
 "use client";
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import axios from 'axios'; // Import axios
 
-export default function SignUpStep1({ updateFormData }) {
+export default function SignUpStep1() {
   const [email, setEmail] = useState('');
   const [password1, setPassword1] = useState('');
   const [password2, setPassword2] = useState('');
-  const [firstName, setFirstName] = useState('');  // Field for first name
-  const [lastName, setLastName] = useState('');    // Field for last name
-  const [role, setRole] = useState('CUSTOMER');    // Default role selection
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [role, setRole] = useState('CUSTOMER');
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -21,10 +21,9 @@ export default function SignUpStep1({ updateFormData }) {
   const [hasSpecialChar, setHasSpecialChar] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true); // Ensures component renders only after mounting
+    setIsMounted(true);
   }, []);
 
-  // Password validation function
   const validatePassword = (password) => {
     setHasMinLength(password.length >= 8);
     setHasUpperCase(/[A-Z]/.test(password));
@@ -33,46 +32,48 @@ export default function SignUpStep1({ updateFormData }) {
     setHasSpecialChar(/[!@#$%^&*(),.?":{}|<>]/.test(password));
   };
 
-  // Handle changes in password input to update criteria states
   const handlePasswordChange = (e) => {
     const password = e.target.value;
     setPassword1(password);
     validatePassword(password);
   };
 
-  // Function to register user
+  // Function to register user using Axios
   const registerUser = async () => {
     try {
-      const response = await fetch('/api/userauth/register/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          first_name: firstName,
-          last_name: lastName,
-          email: email,
-          password1: password1,
-          password2: password2,
-          role: role,
-        }),
+      const response = await axios.post('http://127.0.0.1:8000/api/userauth/register/', {
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        password1: password1,
+        password2: password2,
+        role: role,
       });
-
-      // Check for response validity
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error("Error response:", errorData);
-        throw new Error(errorData.message || 'Registration failed');
-      }
-
-      return await response.json(); // Return data if successful
+  
+      return response.data; // Return data if successful
     } catch (error) {
-      alert(error.message); // Alert user in case of error
-      console.error("Registration Error:", error);
-    }
-  };
+      // Log the full error details for debugging
+      console.error("Full Axios Error:", error);
+  
+      // Log specific details from the error response
+      if (error.response) {
+        console.error("Response Data:", error.response.data);
+        console.error("Status Code:", error.response.status);
+        console.error("Headers:", error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("No Response Received:", error.request);
+      } else {
+        // An error occurred in setting up the request
+        console.error("Error in Request Setup:", error.message);
+      }
+  
+      // Display a more specific error message to the user if available
+      const errorMessage = error.response?.data?.message || 'Registration failed. Please try again.';
+      alert(errorMessage);
+      throw new Error(errorMessage);
+    }}
 
-  // Handle submission logic
   const handleContinue = async (e) => {
     e.preventDefault();
     if (email && password1 && password2 && firstName && lastName) {
@@ -88,17 +89,14 @@ export default function SignUpStep1({ updateFormData }) {
       // Attempt to register the user
       const result = await registerUser();
       if (result) {
-        // Log form data for debugging
         console.log("Form Data:", { firstName, lastName, email, password1, role });
-        updateFormData({ firstName, lastName, email, password1, role });
-        router.push('/success'); // Redirect to success page
+        router.push('/signup/success'); // Redirect to success page
       }
     } else {
       alert("Please fill out all fields.");
     }
   };
 
-  // Avoid rendering if not mounted
   if (!isMounted) return null;
 
   return (

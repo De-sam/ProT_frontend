@@ -11,7 +11,7 @@ export default function Success() {
     // Redirect after 3 seconds
     const timer = setTimeout(() => {
       router.push('/');
-    }, 3000);
+    }, 5000);
 
     // Clean up the timer if the component unmounts before the timeout completes
     return () => clearTimeout(timer);
