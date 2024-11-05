@@ -77,11 +77,14 @@ export default function LoginPage() {
     <div className="grid grid-cols-2 h-[1024px]">
       {/* Left Column with Background Image */}
       <div
-        className="relative col-span-1 w-[720px] justify-center px-10 text-white bg-cover bg-center"
-        style={{
-          backgroundImage: `url('https://s3-alpha-sig.figma.com/img/9554/5c6f/32e3d92e190d548e078619d6907eb48c?Expires=1731283200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=au2VAwdtORHwlQoP2YKDefzFgoUIgFQLG0lrSjTkQ575HH1mJqLiYYyEeoZOkeZPmSUnmFuHqSEVumxcF9zG36mPdIqG38WoQCpXm47z-C3QXvcmLj~NX9f-7e6KGAhrnkG9intum6bns7vPOkHaCFftpff784VstGFhpqxfTLJkua~DDHsZ0NNz1XbSMGjCjBorx6yc-NSyJn~ReV2mTx0gwXuJ3Ic~HDRXj5ugUMbKebWQhPsAevlvB2C5AuOvjQa~mnq~uKwGpUVgNHu~1sDhCk36j4A85mvZJWzOspSxLY75e9osUI~rDvSSIWfJ5sPYSgF7jMgPdHYcI2kmQg__')`,
-        }}
-      >
+    className="relative col-span-1 w-[720px] justify-center px-10 text-white bg-cover bg-center"
+    style={{
+        backgroundImage: `url('https://s3-alpha-sig.figma.com/img/9554/5c6f/32e3d92e190d548e078619d6907eb48c?Expires=1731283200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=au2VAwdtORHwlQoP2YKDefzFgoUIgFQLG0lrSjTkQ575HH1mJqLiYYyEeoZOkeZPmSUnmFuHqSEVumxcF9zG36mPdIqG38WoQCpXm47z-C3QXvcmLj~NX9f-7e6KGAhrnkG9intum6bns7vPOkHaCFftpff784VstGFhpqxfTLJkua~DDHsZ0NNz1XbSMGjCjBorx6yc-NSyJn~ReV2mTx0gwXuJ3Ic~HDRXj5ugUMbKebWQhPsAevlvB2C5AuOvjQa~mnq~uKwGpUVgNHu~1sDhCk36j4A85mvZJWzOspSxLY75e9osUI~rDvSSIWfJ5sPYSgF7jMgPdHYcI2kmQg__')`,
+        backgroundSize: 'cover', // Ensures the background image covers the entire div
+        backgroundPosition: 'center', // Centers the background image
+        width: '720px', // Ensure the width is set here if needed
+    }}
+>
         {/* Overlay */}
         <div className="absolute inset-0 bg-[#1C1C1C] opacity-70"></div>
         
