@@ -226,7 +226,7 @@ export default function SignUpStep1() {
           </button>
         </form>
         <p className="text-gray-600 text-center mt-4">
-          Don&apos;t have an account? <button onClick={handleLogInLink} className="text-[#1A3A4F] font-semibold">Sign up</button>
+          Already have an account? <button onClick={handleLogInLink} className="text-[#1A3A4F] font-semibold">Log In</button>
         </p>
       </div>
     </div>
